@@ -12,6 +12,10 @@ Antes de realizar de pasar a la sección de actividades te recomendamos ver los 
 * [How to install Docker?](https://www.youtube.com/watch?v=wH9XesmPUOk&list=PLy7NrYWoggjzfAHlUusx2wuDwfCrmJYcs&index=3)
 * [8 basic Docker Commands](https://www.youtube.com/watch?v=xGn7cFR3ARU&list=PLy7NrYWoggjzfAHlUusx2wuDwfCrmJYcs&index=4)
 
+## Entregable
+En la sección de actividades se describen varios pasos en los que hay que crear varios archivos cuyo contenido es provisto a lo largo de la explicación, coloca dicho archivos en un directorio llamado `actividades`, en dicho directorio también agrega un pequeño reporte (`reporte.md`) con tus impresiones sobre la herramienta, tu experiencia y dificultades para interactuar con ella, adjun algunos pantallazos de la terminal al ejecutar algunos de los comandos que se describen. Si tienes alguna duda aún sobre el funcionamiento de la herramienta por favor posteala en el canal de slack `#laboratorio`.
+Nota sobre git, sube todo el contenido de tu entrega en la rama `main`, github classroom ya creo por tu un pull request llamado feedback donde se compara la rama `main` contra la versión original del código del repositorio.
+
 ## :computer:  Actividades
 
 ### Antes de empezar :exclamation::exclamation:
@@ -38,7 +42,9 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 sudo docker run hello-world
 ```
+
 para verificar que se instalaron correctamente puedes utilizar los siguientes comando.
+
 ```
 colima -v
 docker --version
@@ -52,7 +58,7 @@ mkdir <nombre-de-la-carpeta>
 ### 2. Crear el archivo de aplicación app.py
 
 En la carpeta que acabas de crear crea el archivo app.py con el siguiente contenido
-```
+```python
 from flask import Flask
 
 app = Flask(__name__)
@@ -87,7 +93,7 @@ nano Dockerfile
 ```
 Y ponemos lo siguiente dentro de `Dockerfile`
 
-```
+```dockerfile
 # syntax=docker/dockerfile:1
 FROM python:3.7-alpine
 WORKDIR /code
@@ -102,20 +108,20 @@ CMD ["flask", "run"]
 ```
 
 ### 5. Construimos la imagen en docker
-```
+```bash
 docker build --tag python-docker .
 ```
 En este punto el motor de docker abra definido el plano para la nueva imagen usando las instrucciones en el archivo DOckerfile
 
 ### 6. Listamos las imagenes que existen en nuestro ambiente local.
 
-``` 
+```bash
 docker images
 ```
 Estas son todas las imagenes que es posible instanciar en tu ambiente local como contenedores, si instalaste Rancher o Docker Desktop es probable que te encuentres con más imagenes de la que hemos construido, son parte del ambiente de dichos programas.
 
 ### 7. Creamos una etiqueta de la imagen
-```
+```bash
 docker tag python-docker:latest python-docker:v1.0.0
 ```
 Listamos de nuevo las imagenes, noten que ahora hay 2 etiquetas de las imagenes.
@@ -227,3 +233,7 @@ docker run --rm -d -p 8080:5000 --name python-server python-docker
 ```
 
 En este punto podemos detener el contenedor
+
+
+
+
