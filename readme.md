@@ -12,9 +12,9 @@ Antes de realizar de pasar a la sección de actividades te recomendamos ver los 
 * [How to install Docker?](https://www.youtube.com/watch?v=wH9XesmPUOk&list=PLy7NrYWoggjzfAHlUusx2wuDwfCrmJYcs&index=3)
 * [8 basic Docker Commands](https://www.youtube.com/watch?v=xGn7cFR3ARU&list=PLy7NrYWoggjzfAHlUusx2wuDwfCrmJYcs&index=4)
 
-## Entregable
-En la sección de actividades se describen varios pasos en los que hay que crear varios archivos cuyo contenido es provisto a lo largo de la explicación, coloca dicho archivos en un directorio llamado `actividades`, en dicho directorio también agrega un pequeño reporte (`reporte.md`) con tus impresiones sobre la herramienta, tu experiencia y dificultades para interactuar con ella, adjun algunos pantallazos de la terminal al ejecutar algunos de los comandos que se describen. Si tienes alguna duda aún sobre el funcionamiento de la herramienta por favor posteala en el canal de slack `#laboratorio`.
-Nota sobre git, sube todo el contenido de tu entrega en la rama `main`, github classroom ya creo por tu un pull request llamado feedback donde se compara la rama `main` contra la versión original del código del repositorio.
+## Entrega
+En la sección de actividades se describen varios pasos en los que hay que crear varios archivos cuyo contenido es provisto a lo largo de la explicación, coloca dicho archivos en un directorio llamado `actividades`, en dicho directorio también agrega un pequeño reporte (`reporte.md`) con tus impresiones sobre la herramienta, tu experiencia y dificultades para interactuar con ella, adjunta algunos pantallazos de la terminal al ejecutar algunos de los comandos que se describen. Si tienes alguna duda aún sobre el funcionamiento de la herramienta por favor postealas en el canal de slack `#laboratorio`.
+Nota sobre git, sube todo el contenido de tu entrega en la rama `main`, github classroom ya creó por tu un pull request llamado feedback donde se compara la rama `main` contra la versión original del contenido del repositorio.
 
 ## :computer:  Actividades
 
@@ -88,13 +88,12 @@ flask
 
 ### 4. Definimos el archivo `Dockerfile`
 
-```
-nano Dockerfile
+```bash
+touch Dockerfile
 ```
 Y ponemos lo siguiente dentro de `Dockerfile`
 
 ```dockerfile
-# syntax=docker/dockerfile:1
 FROM python:3.7-alpine
 WORKDIR /code
 ENV FLASK_APP=app.py
@@ -234,6 +233,59 @@ docker run --rm -d -p 8080:5000 --name python-server python-docker
 
 En este punto podemos detener el contenedor
 
+### 16. Enlazando el directorio de trabajo con un directorio dentro del contenedor
 
+Primero creamos otro dockerfile
+```bash
+touch Dockerfile.other
+```
 
+```dockerfile
+FROM python:3.7-alpine
+WORKDIR /code
+ENV VIRTUAL_ENV=/code/venv
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+ENV FLASK_APP=app.py
+ENV FLASK_RUN_HOST=0.0.0.0
+RUN apk add --no-cache gcc musl-dev linux-headers
+EXPOSE 5000
+```
 
+Construimos otra imagen con el comando:
+
+```bash
+docker build --tag python-mounted-fs --file ./Dockerfile.other  .
+```
+
+iniciamos otro contenedor enlazando el directorio actual con el directorio `/code` dentro del container
+
+```bash
+docker run --rm -d -p 8080:5000 -v "${PWD}":"/code" --name python-mounted-fs-instance python-mounted-fs sleep 1d
+```
+
+Nota: ejecutamos el programa `sleep 1d` para que el contenedor no termine su ejecución una vez que lo hemos iniciado.
+
+Instalamos la dependencias en el contenedor, esta vez ejecutamos un comando sobre un contenedor que está corriendo mediante la instrucción `exec`
+
+```bash
+docker exec python-mounted-fs-instance python -m venv venv
+```
+
+```bash
+docker exec python-mounted-fs-instance pip install -r requirements.txt
+```
+
+Ejecutamos el servidor nuevamente
+
+```bash
+docker exec -it python-mounted-fs-instance flask run
+```
+
+Finalmente en otra terminal utiliza curl para verificar que el servidor 
+está escuchando las peticiones.
+
+```bash
+curl --request GET --url http://localhost:8080/ 
+```
+
+Nota: no olvide detener el contenedor `docker stop python-mounted-fs-instance`.
