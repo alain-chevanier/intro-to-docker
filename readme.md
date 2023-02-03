@@ -77,9 +77,6 @@ Dentro de la misma carpeta crearemos un archivo llamado `requirements.txt`
 ```
 touch requirements.txt
 ```
-```
-nano requirements.txt
-```
 
 Dentro de `requirements.txt` agregamos:
 ```
@@ -257,7 +254,7 @@ Construimos otra imagen con el comando:
 docker build --tag python-mounted-fs --file ./Dockerfile.other  .
 ```
 
-iniciamos otro contenedor enlazando el directorio actual con el directorio `/code` dentro del container
+Iniciamos otro contenedor enlazando el directorio actual con el directorio `/code` dentro del container
 
 ```bash
 docker run --rm -d -p 8080:5000 -v "${PWD}":"/code" --name python-mounted-fs-instance python-mounted-fs sleep 1d
@@ -275,7 +272,7 @@ docker exec python-mounted-fs-instance python -m venv venv
 docker exec python-mounted-fs-instance pip install -r requirements.txt
 ```
 
-Ejecutamos el servidor nuevamente
+Iniciamos el servidor de flask dentro del contenedor
 
 ```bash
 docker exec -it python-mounted-fs-instance flask run
