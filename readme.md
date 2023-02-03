@@ -133,13 +133,13 @@ Importante: Etiquetar una imagen no crea una nueva imagen, solo nos permite refe
 docker rmi python-docker:v1.0.0
 ```
 
-### 8. Instanciamos un contenedor de la imagen que creamos 
+### 9. Instanciamos un contenedor de la imagen que creamos 
 
 ``` 
 docker run python-docker
 ```
 
-### 9. Intentamos llamar  ala imagen que creamos, ya sea de la terminal o del navegador
+### 10. Intentamos llamar  ala imagen que creamos, ya sea de la terminal o del navegador
 
 ```
 curl --request GET \
@@ -148,13 +148,13 @@ curl --request GET \
 
 Notemos que la llamada ha sido rechazada, esto se debe a que la aplicacion intenta llamar un puerto que no está expuesto al host del contenedor
 
-### 10. Listamos los contenedores
+### 11. Listamos los contenedores
 
 ```
 docker ps
 ```
 
-### 11. Detenemos al contenedor, recordemos que el nombre puede variar dependiendo del resultado del comando de listado
+### 12. Detenemos al contenedor, recordemos que el nombre puede variar dependiendo del resultado del comando de listado
 
 ``` 
 docker stop trusting_beaver
@@ -162,7 +162,7 @@ docker stop trusting_beaver
 # docker stop <nombre_contenedor>
 ```
 
-### 12. Volvemos a instanciar, ahora exponiendo el puerto en el que está corriendo la aplicación
+### 13. Volvemos a instanciar, ahora exponiendo el puerto en el que está corriendo la aplicación
 
 ``` 
 docker run --publish 8080:5000 python-docker
@@ -187,7 +187,7 @@ docker stop trusting_beaver
 docker stop <nombre_contenedor>
 ```
 
-### 12. Ejecutamos el contenedor en modo deatached 
+### 14. Ejecutamos el contenedor en modo deatached 
 
 Correr el contenedor en `segundo plano` 
 
@@ -199,7 +199,7 @@ En este modo la sesion de terminal no quedará asociada al proceso de docker eje
 
 Volvemos a detener el contenedor `docker stop <nombre_contenedor>`, listando primero para obtener el nombre
 
-### 13. Reiniciaremos un contenedor
+### 15. Reiniciaremos un contenedor
 
 Listamos todos los contenedores, incluyendo aquellos que no están corriendo
 
@@ -215,7 +215,7 @@ docker restart trusting_beaver
 # docker restart <nombre_contenedor>
 ```
 
-### 14. Eliminamos el contenedor
+### 16. Eliminamos el contenedor
 
 ``` 
 docker rm trusting_beaver modest_khayyam lucid_greider
@@ -223,7 +223,7 @@ docker rm trusting_beaver modest_khayyam lucid_greider
 # docker rm <nombre_contenedor_1> <nombre_contenedor_2> <nombre_contenedor_3>
 ```
 
-### 15. Ejecutamos el contenedor asignandole un nombre y un parametro de autolimpieza
+### 17. Ejecutamos el contenedor asignandole un nombre y un parametro de autolimpieza
 
 ``` 
 docker run --rm -d -p 8080:5000 --name python-server python-docker
@@ -233,7 +233,7 @@ docker run --rm -d -p 8080:5000 --name python-server python-docker
 
 En este punto podemos detener el contenedor
 
-### 16. Enlazando el directorio de trabajo con un directorio dentro del contenedor
+### 18. Enlazando el directorio de trabajo con un directorio dentro del contenedor
 
 Primero creamos otro dockerfile
 ```bash
