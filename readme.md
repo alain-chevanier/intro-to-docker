@@ -23,7 +23,6 @@ Nota sobre git, sube todo el contenido de tu entrega en la rama `main`, github c
 
 ``` 
 MAC:
-brew install colima
 brew install docker
 brew install kubectl
 brew install docker-compose
@@ -40,13 +39,14 @@ https://docs.rancherdesktop.io/getting-started/installation/
 LINUX
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+sudo groupadd docker || true
+sudo usermod -aG docker $USER
 sudo docker run hello-world
 ```
 
 para verificar que se instalaron correctamente puedes utilizar los siguientes comando.
 
 ```
-colima -v
 docker --version
 docker-compose --version
 ```
